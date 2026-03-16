@@ -39,15 +39,17 @@ export default function Card({
           {venueName}
         </p>
 
-        {/* Rating */}
-        <Rating
-          id={`${venueName} Rating`}
-          name={`${venueName} Rating`}
-          data-testid={`${venueName} Rating`}
-          value={rating}
-          onChange={handleChange}
-          onClick={(e) => e.stopPropagation()}
-        />
+        {/* Rating — only shown if onRatingChange prop is provided */}
+        {onRatingChange !== undefined && (
+          <Rating
+            id={`${venueName} Rating`}
+            name={`${venueName} Rating`}
+            data-testid={`${venueName} Rating`}
+            value={rating}
+            onChange={handleChange}
+            onClick={(e) => e.stopPropagation()}
+          />
+        )}
       </div>
     </InteractiveCard>
   );

@@ -1,23 +1,14 @@
 import Image from "next/image";
-
-// Mock Data for Demonstration Only
-const mockVenueRepo = new Map([
-  ["001", { name: "The Bloom Pavilion", image: "/img/bloom.jpg" }],
-  ["002", { name: "Spark Space", image: "/img/sparkspace.jpg" }],
-  ["003", { name: "The Grand Table", image: "/img/grandtable.jpg" }],
-]);
-
-export async function generateStaticParams() {
-  return [{ vid: "001" }, { vid: "002" }, { vid: "003" }];
-}
+import getVenue from "@/libs/getVenue";
 
 export default async function VenueDetailPage({
   params,
 }: {
-  params: Promise<{ vid: string }>;
+  params: Promise<{ vid: string }> | { vid: string };
 }) {
   const { vid } = await params;
-  const venue = mockVenueRepo.get(vid);
+  const venueData = await getVenue(vid);
+  const venue = venueData.data;
 
   if (!venue) {
     return (
@@ -28,18 +19,25 @@ export default async function VenueDetailPage({
   }
 
   return (
-    <main className="text-center p-5">
-      <h1 className="text-lg font-medium mb-4">Venue ID {vid}</h1>
-      <div className="flex flex-row items-center gap-5 justify-center">
-        <div className="relative w-[300px] h-[200px] rounded-lg overflow-hidden bg-black">
+    <main className="flex flex-col items-center p-5">
+      <h1 className="text-2xl font-semibold mb-6">{venue.name}</h1>
+      <div className="flex flex-row items-start gap-6 border rounded-lg p-5 bg-white shadow-sm max-w-2xl w-full">
+        <div className="relative w-[200px] h-[150px] rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
           <Image
-            src={venue.image}
+            src={venue.picture}
             alt={venue.name}
             fill
             className="object-cover rounded-lg"
           />
         </div>
-        <div className="text-md">{venue.name}</div>
+        <div className="text-sm text-gray-700 space-y-1">
+          <p><span className="font-medium">Name:</span> {venue.name}</p>
+          <p><span className="font-medium">Address:</span> {venue.address}</p>
+          <p><span className="font-medium">District:</span> {venue.district}</p>
+          <p><span className="font-medium">Postal Code:</span> {venue.postalcode}</p>
+          <p><span className="font-medium">Tel:</span> {venue.tel}</p>
+          <p><span className="font-medium">Daily Rate:</span> {venue.dailyrate}</p>
+        </div>
       </div>
     </main>
   );
