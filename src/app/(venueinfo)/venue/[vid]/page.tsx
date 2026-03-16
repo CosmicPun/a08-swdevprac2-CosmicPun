@@ -4,7 +4,7 @@ import getVenue from "@/libs/getVenue";
 export default async function VenueDetailPage({
   params,
 }: {
-  params: Promise<{ vid: string }> | { vid: string };
+  params: Promise<{ vid: string }>;
 }) {
   const { vid } = await params;
   const venueData = await getVenue(vid);

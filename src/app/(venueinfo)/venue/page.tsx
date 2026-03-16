@@ -1,8 +1,8 @@
 import VenueCatalog from "@/components/VenueCatalog";
 import getVenues from "@/libs/getVenues";
 
-export default function VenuePage() {
-  const venuesJson = getVenues();
+export default async function VenuePage() {
+  const venuesJson = await getVenues();
 
   return (
     <main className="flex flex-col items-center">
